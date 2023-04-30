@@ -12,10 +12,17 @@ connect(
 
     const runner = source.withWorkdir("/src").withExec(["npm", "install"]);
 
-    const out = await runner
-      .withExec(["npm", "test", "--", "--watchAll=false"])
-      .stderr();
-    console.log(out);
+    const test = runner.withExec(["npm", "test", "--", "--watchAll=false"]);
+
+    const buildDir = test
+      .withExec(["npm", "run", "build"])
+      .directory("./build");
+
+    await buildDir.export("./build");
+
+    const e = await buildDir.entries();
+
+    console.log(`build dir contents:\n ${e}`);
   },
   { LogOutput: process.stdout }
 );
