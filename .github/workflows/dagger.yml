@@ -15,5 +15,4 @@ jobs:
       - name: Install deps
         run: npm ci
       - name: Run Dagger pipeline
-        working-directory: ./ci
-        run: node index.mjs
+        run: node ./ci/index.mjs
